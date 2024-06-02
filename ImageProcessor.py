@@ -7,12 +7,14 @@ pathOut = '/Automatic-Image-Editor/editedImgs'
 for filename in os.listdir(path):
     img = Image.open(f"{path}/{filename}")
 
-    edit = img.filter(ImageFilter.SHARPEN).convert('L')
+    # Apply a filter (e.g., blur for aesthetic effect)
+    img = img.filter(ImageFilter.GaussianBlur(2))
 
-    factor = 1.5
-    enhancer = ImageEnhance.Contrast(edit)
-    edit = enhancer.enhance(factor)
-    
+    # Enhance the color    
+    enhancer = ImageEnhance.Color(img)
+    img = enhancer.enhance(1.5)
+
+    # Save the edited image
     clean_name = os.path.splitext(filename) [0]
 
-    edit.save(f'.{pathOut}/{clean_name}_edited.jpg')
+    img.save(f'.{pathOut}/{clean_name}_edited.jpg')
